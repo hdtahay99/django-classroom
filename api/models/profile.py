@@ -15,7 +15,7 @@ class Profile(models.Model):
 
     A profile contains the personal information of user"""
 
-    user      = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile")
+    user      = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True, related_name="profile")
     rol       = models.ForeignKey('api.Rol', on_delete=models.CASCADE, related_name="rol")
     name      = models.CharField(max_length=100, null=False, blank=False)
     last_name = models.CharField(max_length=100, null=False, blank=False) 
@@ -33,8 +33,8 @@ class Profile(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
 
-    def __unicode__(self):
-        return self.user.username
+    def __str__(self):
+        return self.name
 
 
     def delete(self, *args):

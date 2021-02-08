@@ -5,7 +5,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
 # Models
-from api.models import User, Profile, Rol
+from api.models import User, Profile, Rol, Profession, Professor, Student
 
 
 class CustomUserAdmin(UserAdmin):
@@ -35,6 +35,33 @@ class ProfileAdmin(admin.ModelAdmin):
     list_display  = ('user', 'rol', 'name', 'last_name', 'address', 'phone', 'image_tag', 'is_active')
     search_fields = ('user__email', 'user__username', 'rol__name', 'name', 'last_name')
     list_filter   = ('user', 'rol', 'name',)
+
+
+@admin.register(Profession)
+class ProfessionAdmin(admin.ModelAdmin):
+    """Profession admin"""
+
+    list_display = (
+        'name',
+        'is_active',
+    )
+
+    search_fields = ('name',)
+    list_filter = ('name',)
+
+
+@admin.register(Professor)
+class ProfessorAdmin(admin.ModelAdmin):
+    """Professor admin"""
+
+    list_display = (
+        'professor',
+        'profession',
+        'is_active',
+    )
+
+    search_fields = ('professor', 'profession')
+    list_filter = ('professor',)
 
 
 admin.site.register(User, CustomUserAdmin)
