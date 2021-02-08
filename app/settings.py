@@ -30,7 +30,7 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
-# Application definition
+# Application definition,    'djcelery',
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -46,7 +46,6 @@ INSTALLED_APPS = [
     'api',
     'mptt',
     'django.contrib.sites',
-    'djcelery',
     'debug_toolbar',
 ]
 
@@ -87,8 +86,12 @@ WSGI_APPLICATION = 'app.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE'   : 'django.db.backends.mysql',
+        'NAME'     : 'classroom',
+        'USER'     : 'root',
+        'PASSWORD' : 'D5ekyngy',
+        'HOST'     : 'localhost',
+        'PORT'     : 3306,
     }
 }
 
@@ -131,6 +134,9 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10
 }
+
+AUTH_USER_MODEL = 'api.User'
+
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
