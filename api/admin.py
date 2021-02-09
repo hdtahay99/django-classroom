@@ -64,4 +64,19 @@ class ProfessorAdmin(admin.ModelAdmin):
     list_filter = ('professor',)
 
 
+@admin.register(Student)
+class StudentAdmin(admin.ModelAdmin):
+    """Student admin"""
+
+    list_display = (
+        'student',
+        'contact',
+        'address_contact',
+        'is_active',
+    )
+
+    search_fields = ('student', 'address_contact')
+    list_filter = ('student',)
+
+
 admin.site.register(User, CustomUserAdmin)

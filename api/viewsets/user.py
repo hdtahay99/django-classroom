@@ -9,7 +9,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.settings import api_settings
 
-from api.models import Profile, User
+from api.models import Profile, User, Rol
 from api.serializers import UserSerializer, UserReadSerializer
 
 
@@ -17,9 +17,9 @@ class UserViewset(viewsets.ModelViewSet):
     queryset = User.objects.filter(is_active=True)
 
     filter_backends = (DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter)
-    filter_fields = ("username", "first_name")
-    search_fields = ("username", "first_name")
-    ordering_fields = ("username", "first_name")
+    filter_fields = ("email", "profile__rol__name","profile__name", "profile__last_name")
+    search_fields = ("email", "profile__rol__name","profile__name", "profile__last_name")
+    ordering_fields = ("email", "profile__rol__name","profile__name", "profile__last_name")
 
     def get_serializer_class(self):
         """Define serializer for API"""
@@ -30,19 +30,30 @@ class UserViewset(viewsets.ModelViewSet):
 
     def get_permissions(self):
         """" Define permisos para este recurso """
-        if self.action == "create" or self.action == "token":
-            permission_classes = [AllowAny]
-        else:
-            permission_classes = [IsAuthenticated]
+        # if self.action == "create" or self.action == "token":
+        #     permission_classes = [AllowAny]
+        # else:
+        #     permission_classes = [IsAuthenticated]
+        # return [permission() for permission in permission_classes]
+        permission_classes = [AllowAny]
         return [permission() for permission in permission_classes]
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
-        usuario = User.objects.get(username=request.data["username"])
+        usuario = User.objects.get(email=request.data["email"])
         usuario.set_password(request.data["password"])
         usuario.save()
+        rol = Rol.objects.get(id=request.data["rol"])
+        Profile.objects.create(
+            user=usuario, 
+            rol=rol,
+            name=request.data["name"],
+            last_name=request.data["last_name"],
+            address=request.data["address"],
+            phone=request.data["phone"]
+        )
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 

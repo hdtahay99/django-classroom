@@ -38,7 +38,7 @@ class Professor(models.Model):
 
     
     def __str__(self):
-        return self.name
+        return self.professor.name
 
 
     def delete(self, *args):

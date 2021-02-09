@@ -1,11 +1,25 @@
+"""Users serializaers."""
+
+# Django REST Framework
 from rest_framework import serializers
-from api.models import User, Profile
+
+# Models
+from api.models import User, Profile, Rol
 
 
 class ProfileSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = Profile
-        fields = '__all__'
+        fields = (
+            'rol', 
+            'name', 
+            'last_name', 
+            'address', 
+            'phone', 
+            'picture', 
+            'is_active'
+        )
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -15,12 +29,23 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = (
-            'username',
-            'first_name',
-            'last_name',
+            'id',
             'profile',
-            'password'
+            'email',
+            'username',
+            'password',
+            'change_pass',
+            'is_active',
         )
+
+
+    # def create(self, validated_data):
+    #     """Handle function for create profile."""
+    #     profile_data = validated_data.pop('profile')
+    #     user      = User.objects.create(**validated_data)
+    #     Profile.objects.create(user=user, **profile_data)
+    #     return user
+        
 
 
 class UserReadSerializer(serializers.ModelSerializer):
@@ -29,11 +54,10 @@ class UserReadSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = (
-            'username',
-            'first_name',
-            'last_name',
-            'is_superuser',
-            'is_staff',
+            'id',
             'email',
+            'username',
             'profile',
+            'change_pass',
+            'is_active',
         )
