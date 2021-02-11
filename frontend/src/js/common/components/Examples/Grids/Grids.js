@@ -29,6 +29,7 @@ export default class Grids extends Component {
             <div className="py-4">
                 <h2>GRIDS</h2>
                 <div className="row">
+                    
                     <div className="mb-4 col-lg-6">
                         <div className="mb-4 card card-small">
                             <div className="border-bottom card-header"><h6 className="m-0">Estándar</h6></div>

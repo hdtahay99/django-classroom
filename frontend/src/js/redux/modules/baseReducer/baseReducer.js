@@ -136,6 +136,7 @@ export const createReducer = (storeId, endpoint, formName=undefined, resourceLis
         }
         dispatch(listar());
     };
+    
 
     const actions = {
         listar,
@@ -145,6 +146,7 @@ export const createReducer = (storeId, endpoint, formName=undefined, resourceLis
         eliminar,
         searchChange,
         onSortChange,
+        setLoader,
     };
 
     // -----------------------------------

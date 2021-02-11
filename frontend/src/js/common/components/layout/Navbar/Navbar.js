@@ -26,9 +26,9 @@ class Navbar extends Component {
                     <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
                         <DropdownToggle color="light" caret className="nav-item-dropdown border-0">
                             <img className="user-avatar rounded-circle mr-3"
-                                 src={(user.profile && user.profile.avatar) ? user.profile.avatar : defaultAvatar}
+                                 src={(user.profile && user.profile.picture) ? user.profile.picture : defaultAvatar}
                                  alt="User Avatar" />
-                            <span className="d-none d-md-inline-block">{user.first_name}</span>
+                            <span className="d-none d-md-inline-block">{user.profile.name}, {user.profile.last_name}</span>
                         </DropdownToggle>
                         <DropdownMenu>
                             <DropdownItem header>Header</DropdownItem>
@@ -36,17 +36,17 @@ class Navbar extends Component {
                                 <Link tabIndex="0"
                                    to="/user-profile">
                                     <i className="material-icons"></i>
-                                    Profile
+                                    Perfil
                                 </Link>
                             </DropdownItem>
                             <DropdownItem>
                                 <Link tabIndex="0"
                                    to="/edit-user-profile">
                                     <i className="material-icons"></i>
-                                    Edit Profile
+                                    Editar perfil
                                 </Link>
                             </DropdownItem>
-                            <DropdownItem>
+                            {/* <DropdownItem>
                                 <Link tabIndex="0"
                                    to="/file-manager-list">
                                     <i className="material-icons"></i>
@@ -59,7 +59,7 @@ class Navbar extends Component {
                                     <i className="material-icons"></i>
                                     Transactions
                                 </Link>
-                            </DropdownItem>
+                            </DropdownItem> */}
                             <DropdownItem divider />
                             <DropdownItem>
                                 <a tabIndex="0" className="text-danger" onClick={logOut} href="/">

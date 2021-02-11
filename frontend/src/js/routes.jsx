@@ -22,6 +22,9 @@ import Notificaciones from './common/components/Examples/Notificaciones';
 import ExampleTabs from './common/components/Examples/Tabs/Tabs';
 require('../style/index.css');
 
+import UserCreate from './common/components/User/Create/';
+import UserList from './common/components/User/List/';
+
 module.exports = (
     <div>
         <div className="container__content">
@@ -34,6 +37,8 @@ module.exports = (
                 <ProtectedRoute exact path="/grids" component={Grids} />
                 <ProtectedRoute exact path="/notifications" component={Notificaciones} />
                 <ProtectedRoute exact path="/tabs" component={ExampleTabs} />
+                <ProtectedRoute exact path="/users/list" component={UserList} />
+                <ProtectedRoute exact path="/users/register" component={UserCreate} />
                 <Route component={NotFound} />
             </Switch>
         </div>

@@ -14,7 +14,7 @@ from api.serializers import UserSerializer, UserReadSerializer
 
 
 class UserViewset(viewsets.ModelViewSet):
-    queryset = User.objects.filter(is_active=True)
+    queryset = User.objects.filter(is_active=True).order_by('-id')
 
     filter_backends = (DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter)
     filter_fields = ("email", "profile__rol__name","profile__name", "profile__last_name")
@@ -39,20 +39,26 @@ class UserViewset(viewsets.ModelViewSet):
         return [permission() for permission in permission_classes]
 
     def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
+        print(request.data)
+        data = json.loads(request.data["data"])
+        picture = request.data.get("picture")
+        print('data-react: ',picture)
+
+        serializer = self.get_serializer(data=data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
-        usuario = User.objects.get(email=request.data["email"])
-        usuario.set_password(request.data["password"])
+        usuario = User.objects.get(email=data["email"])
+        usuario.set_password(data["password"])
         usuario.save()
-        rol = Rol.objects.get(id=request.data["rol"])
+        rol = Rol.objects.get(id=data["rol"])
         Profile.objects.create(
             user=usuario, 
             rol=rol,
-            name=request.data["name"],
-            last_name=request.data["last_name"],
-            address=request.data["address"],
-            phone=request.data["phone"]
+            name=data["name"],
+            last_name=data["last_name"],
+            address=data["address"],
+            phone=data["phone"],
+            picture=picture
         )
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
@@ -110,7 +116,8 @@ class UserViewset(viewsets.ModelViewSet):
     def token(self, request, *args, **kwargs):
         data = request.data
         try:
-            user = User.objects.get(username=data["username"])
+            print(data)
+            user = User.objects.get(email=data["email"])
             if user.check_password(data["password"]):
                 token, created = Token.objects.get_or_create(user=user)
                 serializer = UserReadSerializer(user)

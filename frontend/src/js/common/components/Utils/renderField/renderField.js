@@ -194,8 +194,8 @@ export const SelectField = (
         isSearchable,
         options,
         placeholder,
-        labelKey="label",
-        valueKey="value",
+        labelKey="name",
+        valueKey="id",
         meta: { touched, error }
     }) => {
 
